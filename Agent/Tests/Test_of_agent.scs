@@ -1,0 +1,5 @@
+agent_of_determining_derivatives_for_color_test_color<-concept_circle;;
+agent_of_determining_derivatives_for_color_test_color<=nrel_color_mixing:color1;;
+color1<-concept_color;;
+agent_of_determining_derivatives_for_color_test_color<=nrel_color_mixing:color2;;
+color2<-concept_color;;
