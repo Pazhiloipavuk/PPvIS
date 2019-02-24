@@ -1,6 +1,0 @@
-sc_text_of_agent_of_determining_derivatives_for_color
--> rrel_key_sc_element:
-	agent_of_determining_derivatives_for_color;
-<- scp_program_sc_text;;
-
-sc_text_of_agent_of_determining_derivatives_for_color = [*^"file://agent_of_determining_derivatives_for_color.scsi"*];;
