@@ -5,214 +5,223 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
 public class Window {
-	public static void main (String [] args) {
-		
-		Display display = new Display ();
-		Shell shell = new Shell (display);
+	
+	public void solveTasks(Shell shell) {
 	    Group group1 = new Group(shell, SWT.SHADOW_IN);
 	    group1.setText("TASK¹1");
 	    group1.setLayout(new RowLayout(SWT.HORIZONTAL));
-		Text text = new Text (group1, SWT.BORDER);
-		text.setLayoutData (new RowData (SWT.DEFAULT, SWT.DEFAULT));
+		Text textOfGroup1 = new Text(group1, SWT.BORDER);
+		textOfGroup1.setLayoutData(new RowData());
 		Combo combo = new Combo(group1, SWT.DROP_DOWN | SWT.READ_ONLY);
-		Button button = new Button (group1, SWT.PUSH);
-		button.setText ("Button");
+		Button buttonOfGroup1 = new Button(group1, SWT.PUSH);
+		buttonOfGroup1.setText("Button");
 		
-		button.addSelectionListener(new SelectionAdapter() {
+		buttonOfGroup1.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
-				String s = text.getText();
-				text.setText("");
-				text.forceFocus();
-				if (s == null || s.length() == 0) {
+				if (textOfGroup1.getText() == null || textOfGroup1.getText().length() == 0) {
 					return;
 	            }
 	            String[] items = combo.getItems();
 	            for (String item : items) {
-	            	if (item.equals(s)) {
-	            		MessageBox message = new MessageBox(shell, SWT.ICON_ERROR);
-	            		message.setText("ERROR!");
-	            		message.setMessage("Unable to add this word:" + s);
-	            		message.open();
-	            		return;
+	            	if (item.equals(textOfGroup1.getText())) {
+	            		showMessage(shell);
 	                }
 	            }
-				combo.add(s);	
+				combo.add(textOfGroup1.getText());
+				textOfGroup1.setText("");
+				textOfGroup1.forceFocus();
 			}
 		});
 		
 	    Group group2 = new Group(shell, SWT.SHADOW_IN);
 	    group2.setText("TASK¹2");
 	    group2.setLayout(new RowLayout(SWT.HORIZONTAL));
-		Text text1 = new Text (group2, SWT.BORDER);
-		text1.setLayoutData (new RowData (SWT.DEFAULT, SWT.DEFAULT));
-		Button button1 = new Button (group2, SWT.PUSH);
-		button1.setText ("Button1");
-		Button button2 = new Button (group2, SWT.PUSH);
-		button2.setText ("Button2");
+		Text textOfGroup2 = new Text(group2, SWT.BORDER);
+		textOfGroup2.setLayoutData(new RowData());
+		Button button1OfGroup2 = new Button(group2, SWT.PUSH);
+		button1OfGroup2.setText("Button1");
+		Button button2OfGroup2 = new Button(group2, SWT.PUSH);
+		button2OfGroup2.setText("Button2");
 		
-		button1.addSelectionListener(new SelectionAdapter() {
+		button1OfGroup2.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
-				String s1 = text1.getText();
-				text1.setText("");
-				text1.forceFocus();
-				button2.setText(s1);	
+				button2OfGroup2.setText(textOfGroup2.getText());
+				textOfGroup2.setText("");
+				textOfGroup2.forceFocus();
 			}
 		});
 		
-		button2.addSelectionListener(new SelectionAdapter() {
+		button2OfGroup2.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
-				String s2 = button1.getText();
-				String s3 = button2.getText();
-				button1.setText(s3);
-				button2.setText(s2);;	
+				textOfGroup2.setText(button1OfGroup2.getText());
+				button1OfGroup2.setText(button2OfGroup2.getText());
+				button2OfGroup2.setText(textOfGroup2.getText());
+				textOfGroup2.setText("");
 			}
 		});
 
 	    Group group3 = new Group(shell, SWT.SHADOW_IN);
 	    group3.setText("TASK¹3");
 	    group3.setLayout(new RowLayout(SWT.HORIZONTAL));
-	    Group group3_1 = new Group(group3, SWT.SHADOW_IN);
-	    group3_1.setLayout(new RowLayout(SWT.VERTICAL));
-	    Button radiobutton1 = new Button(group3_1, SWT.RADIO);
+	    Group groupRadioButton = new Group(group3, SWT.SHADOW_IN);
+	    groupRadioButton.setLayout(new RowLayout(SWT.VERTICAL));
+	    Button radiobutton1 = new Button(groupRadioButton, SWT.RADIO);
 	    radiobutton1.setText("R1");
-	    String sr1 = radiobutton1.getText();
-	    Button radiobutton2 = new Button(group3_1, SWT.RADIO);
+	    Button radiobutton2 = new Button(groupRadioButton, SWT.RADIO);
 	    radiobutton2.setText("R2");
-	    String sr2 = radiobutton2.getText();
-	    Button radiobutton3 = new Button(group3_1, SWT.RADIO);
+	    Button radiobutton3 = new Button(groupRadioButton, SWT.RADIO);
 	    radiobutton3.setText("R3");
-	    String sr3 = radiobutton3.getText();
-		Text text2 = new Text (group3, SWT.BORDER);
-		text2.setLayoutData (new RowData (SWT.DEFAULT, SWT.DEFAULT));
-		Button button4 = new Button (group3, SWT.PUSH);
-		button4.setText ("Button");
+		Text textOfGroup3 = new Text(group3, SWT.BORDER);
+		textOfGroup3.setLayoutData(new RowData());
+		Button buttonOfGroup3 = new Button(group3, SWT.PUSH);
+		buttonOfGroup3.setText("Button");
 		
-		button4.addSelectionListener(new SelectionAdapter() {
+		buttonOfGroup3.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
-				String s3 = text2.getText();
-				text2.setText("");
-				text2.forceFocus();
-				if (s3.equals(sr1)) {
+				if (textOfGroup3.getText().equals(radiobutton1.getText())) {
 					radiobutton1.setSelection(true);
 					radiobutton2.setSelection(false);
 					radiobutton3.setSelection(false);
-				}
-				else if (s3.equals(sr2)) {
+				} else if (textOfGroup3.getText().equals(radiobutton2.getText())) {
 					radiobutton1.setSelection(false);	
 					radiobutton2.setSelection(true);
 					radiobutton3.setSelection(false);
-				}
-				else if (s3.equals(sr3)) {
+				} else if (textOfGroup3.getText().equals(radiobutton3.getText())) {
 					radiobutton1.setSelection(false);	
 					radiobutton2.setSelection(false);		
 					radiobutton3.setSelection(true);			
-				}	
-				else {
-					MessageBox message = new MessageBox(shell, SWT.ICON_ERROR);
-					message.setText("ERROR!");
-					message.setMessage("Unable");
-					message.open();
-					return;
+				} else {
+					showMessage(shell);
+					textOfGroup3.setText("");
+					textOfGroup3.forceFocus();
 	            }
+				textOfGroup3.setText("");
+				textOfGroup3.forceFocus();
 			}
 		});
 		
 		Group group4 = new Group(shell, SWT.SHADOW_IN);
 	    group4.setText("TASK¹4");
 	    group4.setLayout(new RowLayout(SWT.HORIZONTAL));
-	    Group group4_1 = new Group(group4, SWT.SHADOW_IN);
-	    group4_1.setLayout(new RowLayout(SWT.VERTICAL));
-	    Button checkbutton1 = new Button(group4_1, SWT.CHECK);
+	    Group groupCheckButton = new Group(group4, SWT.SHADOW_IN);
+	    groupCheckButton.setLayout(new RowLayout(SWT.VERTICAL));
+	    Button checkbutton1 = new Button(groupCheckButton, SWT.CHECK);
 	    checkbutton1.setText("C1");
-	    String sc1 = checkbutton1.getText();
-	    Button checkbutton2 = new Button(group4_1, SWT.CHECK);
+	    Button checkbutton2 = new Button(groupCheckButton, SWT.CHECK);
 	    checkbutton2.setText("C2");
-	    String sc2 = checkbutton2.getText();
-	    Button checkbutton3 = new Button(group4_1, SWT.CHECK);
+	    Button checkbutton3 = new Button(groupCheckButton, SWT.CHECK);
 	    checkbutton3.setText("C3");
-	    String sc3 = checkbutton3.getText();
-		Text text3 = new Text (group4, SWT.BORDER);
-		text3.setLayoutData (new RowData (SWT.DEFAULT, SWT.DEFAULT));
-		Button button5 = new Button (group4, SWT.PUSH);
-		button5.setText ("Button");
+		Text textOfGroup4 = new Text(group4, SWT.BORDER);
+		textOfGroup4.setLayoutData(new RowData());
+		Button buttonOfGroup4 = new Button(group4, SWT.PUSH);
+		buttonOfGroup4.setText("Button");
 		
-		button5.addSelectionListener(new SelectionAdapter() {
+		buttonOfGroup4.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
-				String s4 = text3.getText();
-				text3.setText("");
-				if (s4.equals(sc1)) {
+				if (textOfGroup4.getText().equals(checkbutton1.getText())) {
 					checkbutton1.setSelection(!checkbutton1.getSelection());;
-				}
-				else if (s4.equals(sc2)) {
+				} else if (textOfGroup4.getText().equals(checkbutton2.getText())) {
 					checkbutton2.setSelection(!checkbutton2.getSelection());
-				}
-				else if (s4.equals(sc3)) {	
+				} else if (textOfGroup4.getText().equals(checkbutton3.getText())) {	
 					checkbutton3.setSelection(!checkbutton3.getSelection());			
+				} else {
+					showMessage(shell);
+					textOfGroup4.setText("");
+					textOfGroup4.forceFocus();
 				}
-				else {
-		           	MessageBox message = new MessageBox(shell, SWT.ICON_ERROR);
-		           	message.setText("ERROR!");
-		           	message.setMessage("Unable");
-		           	message.open();
-		            return;
-				}
+				textOfGroup4.setText("");
+				textOfGroup4.forceFocus();
 			}
 		});
 
 	    Group group5 = new Group(shell, SWT.SHADOW_IN);
 	    group5.setText("TASK¹5");
 	    group5.setLayout(new RowLayout(SWT.HORIZONTAL));
-	    Table table = new Table (group5, SWT.MULTI | SWT.BORDER |SWT.FULL_SELECTION); 
-	    table.setLinesVisible (true); 
-	    table.setHeaderVisible (true);
-		table.setItemCount(5);
-	    TableColumn column1 = new TableColumn (table, SWT.NONE);
-	    column1.setText ("First column");
+	    Table table = new Table(group5, SWT.MULTI | SWT.BORDER |SWT.FULL_SELECTION);
+	    RowData layoutTable = new RowData();
+	    layoutTable.width=160;
+	    layoutTable.height=100;
+	    table.setLinesVisible(true); 
+	    table.setHeaderVisible(true);
+	    table.setLayoutData(layoutTable);
+	    TableColumn column1 = new TableColumn(table, SWT.DEFAULT);
+	    column1.setText("First column");
 	    column1.pack();
-	    TableColumn column2 = new TableColumn (table, SWT.NONE);
-	    column2.setText ("Second column");
+	    TableColumn column2 = new TableColumn(table, SWT.DEFAULT);
+	    column2.setText("Second column");
 	    column2.pack();
-		Text text4 = new Text (group5, SWT.BORDER);
-		text4.setLayoutData (new RowData (SWT.DEFAULT, SWT.DEFAULT));
-		Button button6 = new Button (group5, SWT.PUSH);
-		button6.setText ("Button");
+		Text textOfGroup5 = new Text(group5, SWT.BORDER);
+		textOfGroup5.setLayoutData(new RowData());
+		Button button1OfGroup5 = new Button(group5, SWT.PUSH);
+		button1OfGroup5.setText("Button");
 		
-		button6.addSelectionListener(new SelectionAdapter() {
+		button1OfGroup5.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
-				TableItem item = new TableItem (table, SWT.NONE,0);
-				item.setText (0, text4.getText());
-				text4.setText("");	
+				TableItem item = new TableItem(table, SWT.DEFAULT, 0);
+				item.setText(0, textOfGroup5.getText());
+				textOfGroup5.setText("");	
 			}
 		});
 		
-		Button button7 = new Button (group5, SWT.PUSH);
-		button7.setText ("Button1");
+		Button button2OfGroup5 = new Button(group5, SWT.PUSH);
+		button2OfGroup5.setText("Button1");
 
-		button7.addSelectionListener(new SelectionAdapter() {
+		button2OfGroup5.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
 				TableItem item = table.getSelection()[0];
-				item.setText (1, item.getText(0));
-				item.setText (0, "");	
+            	if (item.getText(0).equals("")) {
+            		return;
+                } else {
+				item.setText(1, item.getText(0));
+				item.setText(0, "");
+                }
 			}
 		});
 		
-		Button button8 = new Button (group5, SWT.PUSH);
-		button8.setText ("Button2");
+		Button button3OfGroup5 = new Button(group5, SWT.PUSH);
+		button3OfGroup5.setText("Button2");
 
-		button8.addSelectionListener(new SelectionAdapter() {
+		button3OfGroup5.addSelectionListener(new SelectionAdapter() {
+			
 			public void widgetSelected(SelectionEvent arg0) {
 				TableItem item = table.getSelection()[0];
+            	if (item.getText(1).equals("")) {
+            		return;
+                } else {
 				item.setText (0, item.getText(1));
-				item.setText (1, "");	
+				item.setText (1, "");
+                }
 			}
 		});
-		shell.setLayout (new RowLayout ());
+	}
+	
+	public void showMessage(Shell shell) {		
+		MessageBox message = new MessageBox(shell, SWT.ICON_ERROR);
+		message.setText("ERROR!");
+		message.setMessage("Unable!");
+		message.open();
+		return;
+	}
+		
+	public static void main(String [] args) {		
+		Display display = new Display();
+		Shell shell = new Shell(display);
+		new Window().solveTasks(shell);
+		shell.setLayout(new RowLayout(SWT.VERTICAL));
+		shell.pack();
 		shell.open ();
-        shell.setText("LABA1");
-		while (!shell.isDisposed ()) {
-			if (!display.readAndDispatch ()) display.sleep ();
+        shell.setText("Lab Work ¹1");
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) display.sleep();
 		}
-		display.dispose ();
+		display.dispose();
 	}
 
 }
