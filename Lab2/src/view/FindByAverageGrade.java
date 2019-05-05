@@ -121,6 +121,7 @@ public class FindByAverageGrade {
 		findButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
+				table.removeAll();
 				String surnameToSearch = textSurname.getText();
 				int lowerGrade = Integer.parseInt(textLowerGrade.getText());
 				int upperGrade = Integer.parseInt(textUpperGrade.getText());

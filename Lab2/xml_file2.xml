@@ -26,4 +26,41 @@
         <exam grade="10">PH</exam>
         <group>721701</group>
     </student>
+    <student>
+        <name>Irina</name>
+        <surname>Lukashevich</surname>
+        <middlename>Vitalievna</middlename>
+        <exam grade="8">Math</exam>
+        <exam grade="8">English</exam>
+        <group>7217032</group>
+    </student>
+    <student>
+        <name>Maria</name>
+        <surname>Ahramenko</surname>
+        <middlename>Aleksandrovna</middlename>
+        <exam grade="8">Math</exam>
+        <exam grade="8">English</exam>
+        <exam grade="7">PH</exam>
+        <exam grade="9">Russian</exam>
+        <group>721702</group>
+    </student>
+    <student>
+        <name>Artyom</name>
+        <surname>Gurbovich</surname>
+        <middlename>Aleksandrovich</middlename>
+        <exam grade="5">Math</exam>
+        <exam grade="8">English</exam>
+        <exam grade="8">PH</exam>
+        <exam grade="8">Belarusian</exam>
+        <group>721702</group>
+    </student>
+    <student>
+        <name>Maksim</name>
+        <surname>Valenchic</surname>
+        <middlename>Romanovich</middlename>
+        <exam grade="7">Biology</exam>
+        <exam grade="8">Literature</exam>
+        <exam grade="10">PH</exam>
+        <group>8800555</group>
+    </student>
 </school>

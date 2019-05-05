@@ -114,6 +114,7 @@ public class FindByGroup {
 		findButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
+				table.removeAll();
 				String surnameToSearch = textSurname.getText();
 				String groupToSearch = textGroup.getText();
 				ArrayList<Student> studentToFind = controller.findByNumberOfGroup(groupToSearch, surnameToSearch);

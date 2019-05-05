@@ -121,6 +121,7 @@ public class FindByDiscipline {
 		findButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
+				table.removeAll();
 				String surnameToSearch = textSurname.getText();
 				String examToSearch = textExam.getText();
 				int gradeToSearch = Integer.parseInt(textGrade.getText());

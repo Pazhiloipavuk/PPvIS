@@ -101,4 +101,8 @@ public class Controller {
 		list.setStudents(removeStudent);
 		return size - removeStudent.size();
 	}
+	
+	public ArrayList<Student> getStudents(){
+		return list.getStudents();
+	}
 }

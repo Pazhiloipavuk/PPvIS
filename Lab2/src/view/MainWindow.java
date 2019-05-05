@@ -17,11 +17,9 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.xml.sax.SAXException;
 
-import controller.Controller;
+import controller.*;
 
 public class MainWindow {
 	
@@ -34,8 +32,10 @@ public class MainWindow {
 	}
 	
 	public void createMainWindow() {
-		shell.setSize(1200, 640);
+		shell.setBounds(150, 100, 1200, 600);
 		shell.setText("Lab Work ¹2");
+		
+		new RecordsOnPage(display, shell, controller);
 		
 		Menu menu = new Menu (shell, SWT.BAR);
 		shell.setMenuBar(menu);
@@ -77,76 +77,6 @@ public class MainWindow {
 				}
 		    }
 		});
-
-		Table table = new Table(shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		table.setBounds(10, 15, 1050, 400);
-
-		TableColumn FIOColumn = new TableColumn(table, SWT.DEFAULT);
-		FIOColumn.setText("FIO");
-		FIOColumn.setWidth(200);
-		
-		TableColumn groupColumn = new TableColumn(table, SWT.DEFAULT);
-		groupColumn.setText("Group");
-		groupColumn.setWidth(100);;
-
-		TableColumn firstExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		firstExamNameColumn.setText("Exam name");
-		firstExamNameColumn.pack();
-		
-		TableColumn firstGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		firstGradeColumn.setText("Grade");
-		firstGradeColumn.pack();
-		
-		TableColumn secondExamNameColumnn = new TableColumn(table, SWT.DEFAULT);
-		secondExamNameColumnn.setText("Exam name");
-		secondExamNameColumnn.pack();
-		
-		TableColumn secondGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		secondGradeColumn.setText("Grade");
-		secondGradeColumn.pack();
-		
-		TableColumn thirdExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		thirdExamNameColumn.setText("Exam name");
-		thirdExamNameColumn.pack();
-		
-		TableColumn thirdGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		thirdGradeColumn.setText("Grade");
-		thirdGradeColumn.pack();
-		
-		TableColumn fourthExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		fourthExamNameColumn.setText("Exam name");
-		fourthExamNameColumn.pack();
-		
-		TableColumn fourthGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		fourthGradeColumn.setText("Grade");
-		fourthGradeColumn.pack();
-		
-		TableColumn fifthExamNameColumnn = new TableColumn(table, SWT.DEFAULT);
-		fifthExamNameColumnn.setText("Exam name");
-		fifthExamNameColumnn.pack();
-		
-		TableColumn fifthGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		fifthGradeColumn.setText("Grade");
-		fifthGradeColumn.pack();
-		
-		TableColumn sixthExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		sixthExamNameColumn.setText("Exam name");
-		sixthExamNameColumn.pack();
-		
-		TableColumn sixthGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		sixthGradeColumn.setText("Grade");
-		sixthGradeColumn.pack();
-		
-		TableColumn seventhExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		seventhExamNameColumn.setText("Exam name");
-		seventhExamNameColumn.pack();
-		
-		TableColumn seventhGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		seventhGradeColumn.setText("Grade");
-		seventhGradeColumn.pack();
-
 
 		Button addStudentButton = new Button(shell, SWT.PUSH);
 		addStudentButton.setText("add student");
