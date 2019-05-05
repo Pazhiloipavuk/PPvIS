@@ -39,23 +39,31 @@ public class DeleteByDiscipline {
 		Text textExam = new Text (shell, SWT.BORDER);
 		textExam.setBounds(85, 75, 180, 20);
 		
-		Label labelGrade = new Label (shell, SWT.NONE);
-		labelGrade.setText("Grade:");
-		labelGrade.setBounds(10, 107, 70, 20);
+		Label labelLowerGrade = new Label (shell, SWT.NONE);
+		labelLowerGrade.setText("Lower grade:");
+		labelLowerGrade.setBounds(10, 107, 70, 20);
 		
-		Text textGrade = new Text (shell, SWT.BORDER);
-		textGrade.setBounds(85, 105, 30, 20);
+		Text textLowerGrade = new Text (shell, SWT.BORDER);
+		textLowerGrade.setBounds(85, 105, 30, 20);
+		
+		Label labelUpperGrade = new Label (shell, SWT.NONE);
+		labelUpperGrade.setText("Upper grade:");
+		labelUpperGrade.setBounds(10, 137, 70, 20);
+		
+		Text textUpperGrade = new Text (shell, SWT.BORDER);
+		textUpperGrade.setBounds(85, 135, 30, 20);
 		
 		Button deleteButton = new Button (shell, SWT.PUSH);
 		deleteButton.setText("Find and delete");
-		deleteButton.setBounds(90, 150, 120, 30);
+		deleteButton.setBounds(90, 170, 120, 30);
 		deleteButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
 				String surnameToSearch = textSurname.getText();
 				String examToSearch = textExam.getText();
-				int gradeToSearch = Integer.parseInt(textGrade.getText());
-				ArrayList<Student> studentToFind = controller.findByGradeByDiscipline(examToSearch, surnameToSearch, gradeToSearch);
+				int lowerGrade = Integer.parseInt(textLowerGrade.getText());
+				int upperGrade = Integer.parseInt(textUpperGrade.getText());
+				ArrayList<Student> studentToFind = controller.findByGradeByDiscipline(examToSearch, surnameToSearch, lowerGrade, upperGrade);
 				if (studentToFind.size() == 0) {
 					MessageBox messageError = new MessageBox(shell, SWT.ICON_ERROR);
 					messageError.setText("ERROR!");
@@ -70,7 +78,8 @@ public class DeleteByDiscipline {
 				}
 				textSurname.setText("");
 				textExam.setText("");
-				textGrade.setText("");
+				textLowerGrade.setText("");
+				textUpperGrade.setText("");
 			}
 		});
 	}

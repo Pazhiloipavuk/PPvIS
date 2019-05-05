@@ -63,7 +63,7 @@ public class Controller {
 	public ArrayList<Student> findByAverageGrade(int lowerGrade, int upperGrade, String surnameToSearch) {
 		ArrayList<Student> studentToFind = new ArrayList<>();
 		for (Student student : list.getStudents()) {
-			if (student.getAverageGrade() > lowerGrade && student.getAverageGrade() < upperGrade && surnameToSearch.equals(student.getSurname())) {
+			if (student.getAverageGrade() >= lowerGrade && student.getAverageGrade() <= upperGrade && surnameToSearch.equals(student.getSurname())) {
 				studentToFind.add(student);	
 			}
 		}
@@ -80,11 +80,11 @@ public class Controller {
 		return studentToFind;
 	}
 	
-	public ArrayList<Student> findByGradeByDiscipline(String examToSearch, String surnameToSearch, int gradeToSearch) {
+	public ArrayList<Student> findByGradeByDiscipline(String examToSearch, String surnameToSearch, int lowerGrade, int upperGrade) {
 		ArrayList<Student> studentToFind = new ArrayList<>();
 		for (Student student : list.getStudents()) {
 			for (Map.Entry<String, Integer> pair : student.getExams().entrySet()) {
-				if (examToSearch.equals(pair.getKey()) && gradeToSearch == pair.getValue() && surnameToSearch.equals(student.getSurname())) {
+				if (examToSearch.equals(pair.getKey()) &&  pair.getValue() >=  lowerGrade && pair.getValue() <= upperGrade && surnameToSearch.equals(student.getSurname())) {
 					studentToFind.add(student);	
 				}
 			}

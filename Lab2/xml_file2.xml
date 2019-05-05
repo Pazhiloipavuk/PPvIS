@@ -63,4 +63,13 @@
         <exam grade="10">PH</exam>
         <group>8800555</group>
     </student>
+    <student>
+        <name>Alexander</name>
+        <surname>Popov</surname>
+        <middlename>Alexandrovich</middlename>
+        <exam grade="9">PH</exam>
+        <exam grade="9">History</exam>
+        <exam grade="9">Literature</exam>
+        <group>7217032</group>
+    </student>
 </school>

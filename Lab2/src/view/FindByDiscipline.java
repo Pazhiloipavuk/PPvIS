@@ -96,36 +96,44 @@ public class FindByDiscipline {
 		
 		Label labelSurname = new Label (shell, SWT.NONE);
 		labelSurname.setText("Surname:");
-		labelSurname.setBounds(10, 437, 70, 20);
+		labelSurname.setBounds(10, 427, 70, 20);
 		
 		Text textSurname = new Text (shell, SWT.BORDER);
-		textSurname.setBounds(85, 435, 180, 20);
+		textSurname.setBounds(85, 425, 180, 20);
 		
 		Label labelExam = new Label (shell, SWT.NONE);
 		labelExam.setText("Exam name:");
-		labelExam.setBounds(10, 467, 70, 20);
+		labelExam.setBounds(10, 457, 70, 20);
 		
 		Text textExam = new Text (shell, SWT.BORDER);
-		textExam.setBounds(85, 465, 80, 20);
+		textExam.setBounds(85, 455, 80, 20);
 		
-		Label labelGrade = new Label (shell, SWT.NONE);
-		labelGrade.setText("Grade:");
-		labelGrade.setBounds(10, 497, 70, 20);
+		Label labelLowerGrade = new Label (shell, SWT.NONE);
+		labelLowerGrade.setText("Lower grade:");
+		labelLowerGrade.setBounds(10, 487, 70, 20);
 		
-		Text textGrade = new Text (shell, SWT.BORDER);
-		textGrade.setBounds(85, 495, 30, 20);
+		Text textLowerGrade = new Text (shell, SWT.BORDER);
+		textLowerGrade.setBounds(85, 485, 30, 20);
+		
+		Label labelUpperGrade = new Label (shell, SWT.NONE);
+		labelUpperGrade.setText("Upper grade:");
+		labelUpperGrade.setBounds(10, 517, 70, 20);
+		
+		Text textUpperGrade = new Text (shell, SWT.BORDER);
+		textUpperGrade.setBounds(85, 515, 30, 20);
 		
 		Button findButton = new Button (shell, SWT.PUSH);
 		findButton.setText("Find");
-		findButton.setBounds(300, 455, 120, 30);
+		findButton.setBounds(300, 450, 120, 30);
 		findButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
 				table.removeAll();
 				String surnameToSearch = textSurname.getText();
 				String examToSearch = textExam.getText();
-				int gradeToSearch = Integer.parseInt(textGrade.getText());
-				ArrayList<Student> studentToFind = controller.findByGradeByDiscipline(examToSearch, surnameToSearch, gradeToSearch);
+				int lowerGrade = Integer.parseInt(textLowerGrade.getText());
+				int upperGrade = Integer.parseInt(textUpperGrade.getText());
+				ArrayList<Student> studentToFind = controller.findByGradeByDiscipline(examToSearch, surnameToSearch, lowerGrade, upperGrade);
 				if (studentToFind.size() == 0) {
 					MessageBox messageError = new MessageBox(shell, SWT.ICON_ERROR);
 					messageError.setText("ERROR!");
@@ -147,7 +155,8 @@ public class FindByDiscipline {
 				}
 				textSurname.setText("");
 				textExam.setText("");
-				textGrade.setText("");
+				textLowerGrade.setText("");
+				textUpperGrade.setText("");
 			}
 		});
 	}
