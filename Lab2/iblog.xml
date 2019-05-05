@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<school>
+    <student>
+        <name>Maksim</name>
+        <surname>Petrov</surname>
+        <middlename>Ivanovich</middlename>
+        <exam grade="7">Biology</exam>
+        <exam grade="10">PH</exam>
+        <group>8800555</group>
+    </student>
+    <student>
+        <name>Pavel</name>
+        <surname>Kalenik</surname>
+        <middlename>Romanovich</middlename>
+        <exam grade="8">Russian</exam>
+        <exam grade="5">Belarusian</exam>
+        <exam grade="9">Math</exam>
+        <group>721702</group>
+    </student>
+</school>
