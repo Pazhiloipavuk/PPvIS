@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,10 +15,10 @@ import model.*;
 
 public class Controller {
 	
-	private List list;
+	private ListOfStudents list;
 	private Parser parser;
 	
-	public Controller(List list) {
+	public Controller(ListOfStudents list) {
 		this.list = list;
 		parser = new Parser();
 	}
@@ -32,9 +33,9 @@ public class Controller {
 	}
 	
 	public void addStudent(String nameToAdd, String surnameToAdd, String middleNameToAdd, String groupToAdd, String stringOfExams, String stringOfGrades) {
-		ArrayList<Student> addedStudent = list.getStudents();
-		String[] nameOfExams = stringOfExams.split(" ");
-		String[] stringGrades = stringOfGrades.split(" ");
+		List<Student> addedStudent = list.getStudents();
+		String[] nameOfExams = stringOfExams.split("\\r?\\n");
+		String[] stringGrades = stringOfGrades.split("\\r?\\n");
 		ArrayList<Integer> grades = new ArrayList<>();
 		Map<String, Integer> examsToAdd = new LinkedHashMap<>();
 		for (int i = 0; i < stringGrades.length; i++) {
@@ -60,27 +61,27 @@ public class Controller {
  	    }
 	}
 	
-	public ArrayList<Student> findByAverageGrade(int lowerGrade, int upperGrade, String surnameToSearch) {
+	public void findByAverageGrade(int lowerGrade, int upperGrade, String surnameToSearch) {
 		ArrayList<Student> studentToFind = new ArrayList<>();
 		for (Student student : list.getStudents()) {
 			if (student.getAverageGrade() >= lowerGrade && student.getAverageGrade() <= upperGrade && surnameToSearch.equals(student.getSurname())) {
 				studentToFind.add(student);	
 			}
 		}
-		return studentToFind;
+		list.setStudentsForTasks(studentToFind);
 	}
 	
-	public ArrayList<Student> findByNumberOfGroup(String groupToSearch, String surnameToSearch) {
+	public void findByNumberOfGroup(String groupToSearch, String surnameToSearch) {
 		ArrayList<Student> studentToFind = new ArrayList<>();
 		for (Student student : list.getStudents()) {
 			if (groupToSearch.equals(student.getGroup()) && surnameToSearch.equals(student.getSurname())) {
 				studentToFind.add(student);	
 			}
 		}
-		return studentToFind;
+		list.setStudentsForTasks(studentToFind);
 	}
 	
-	public ArrayList<Student> findByGradeByDiscipline(String examToSearch, String surnameToSearch, int lowerGrade, int upperGrade) {
+	public void findByGradeByDiscipline(String examToSearch, String surnameToSearch, int lowerGrade, int upperGrade) {
 		ArrayList<Student> studentToFind = new ArrayList<>();
 		for (Student student : list.getStudents()) {
 			for (Map.Entry<String, Integer> pair : student.getExams().entrySet()) {
@@ -89,11 +90,11 @@ public class Controller {
 				}
 			}
 		}
-		return studentToFind;
+		list.setStudentsForTasks(studentToFind);
 	}
 	
-	public int removeStudent(ArrayList<Student> studentToRemove) {
-		ArrayList<Student> removeStudent = list.getStudents();
+	public int removeStudent(List<Student> studentToRemove) {
+		List<Student> removeStudent = list.getStudents();
 		int size = removeStudent.size();
 		for (Student student : studentToRemove) {
 			removeStudent.remove(student);
@@ -102,7 +103,11 @@ public class Controller {
 		return size - removeStudent.size();
 	}
 	
-	public ArrayList<Student> getStudents(){
+	public List<Student> getStudents(){
 		return list.getStudents();
+	}
+	
+	public List<Student> getStudentsForTasks(){
+		return list.getStudentsForTasks();
 	}
 }

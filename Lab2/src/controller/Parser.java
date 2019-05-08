@@ -10,6 +10,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class Parser {
 	private final String ELEMENT_GROUP = "group";
 
 
-	public void write(File file, ArrayList<Student> students) throws ParserConfigurationException, TransformerException {		
+	public void write(File file, List<Student> students) throws ParserConfigurationException, TransformerException {		
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.newDocument();

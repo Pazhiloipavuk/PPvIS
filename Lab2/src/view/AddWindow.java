@@ -8,14 +8,14 @@ import org.eclipse.swt.widgets.*;
 import controller.Controller;
 
 public class AddWindow {
-	public AddWindow(Display display, Controller controller) {
+	public AddWindow(Display display, Controller controller, Composite composite) {
 		Shell shell = new Shell(display, SWT.MAX | SWT.TITLE | SWT.CLOSE | SWT.SHELL_TRIM);
-		shell.setBounds(500, 250, 300, 300);
+		shell.setBounds(500, 100, 400, 600);
 		shell.open();
 		
 		Label labelMain = new Label (shell, SWT.NONE);
 		labelMain.setText("INPUT INFORMATION ABOUT STUDENT");
-		labelMain.setBounds(35, 15, 250, 20);
+		labelMain.setBounds(85, 15, 250, 20);
 		
 		Label labelName = new Label (shell, SWT.NONE);
 		labelName.setText("Name:");
@@ -47,21 +47,21 @@ public class AddWindow {
 		
 		Label labelExams = new Label (shell, SWT.NONE);
 		labelExams.setText("Exams:");
-		labelExams.setBounds(10, 167, 70, 20);
+		labelExams.setBounds(100, 167, 70, 20);
 		
-		Text textExams = new Text (shell, SWT.BORDER);
-		textExams.setBounds(85, 165, 180, 20);
+		Text textExams = new Text (shell, SWT.BORDER| SWT.MULTI | SWT.RIGHT);
+		textExams.setBounds(10, 195, 180, 300);
 		
 		Label labelGrades = new Label (shell, SWT.NONE);
 		labelGrades.setText("Grades:");
-		labelGrades.setBounds(10, 197, 70, 20);
+		labelGrades.setBounds(250, 167, 70, 20);
 		
-		Text textGrades = new Text (shell, SWT.BORDER);
-		textGrades.setBounds(85, 195, 180, 20);
+		Text textGrades = new Text (shell, SWT.BORDER| SWT.MULTI | SWT.LEFT);
+		textGrades.setBounds(195, 195, 180, 300);
 		
 		Button addButton = new Button (shell, SWT.PUSH);
 		addButton.setText("Add");
-		addButton.setBounds(125, 225, 50, 30);
+		addButton.setBounds(175, 525, 50, 30);
 		addButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
@@ -72,7 +72,7 @@ public class AddWindow {
 				String stringOfExams = textExams.getText();
 				String stringOfGrades = textGrades.getText();
 				controller.addStudent(nameToAdd, surnameToAdd, middleNameToAdd, groupToAdd, stringOfExams, stringOfGrades);
-				
+				new RecordsOnPage(composite, controller, "main");
 				textName.setText("");
 				textSurname.setText("");
 				textMiddlename.setText("");

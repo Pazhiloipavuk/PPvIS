@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.xml.sax.SAXException;
 
@@ -35,8 +36,6 @@ public class MainWindow {
 		shell.setBounds(150, 100, 1200, 600);
 		shell.setText("Lab Work ¹2");
 		
-		new RecordsOnPage(display, shell, controller);
-		
 		Menu menu = new Menu (shell, SWT.BAR);
 		shell.setMenuBar(menu);
 
@@ -46,6 +45,75 @@ public class MainWindow {
 		Menu subMenu = new Menu (shell, SWT.DROP_DOWN);
 		fileItem.setMenu(subMenu);
 
+		MenuItem fileCommandsItem = new MenuItem (menu, SWT.CASCADE);
+		fileCommandsItem.setText("Commands");
+		
+		Menu subMenuCommands = new Menu (shell, SWT.DROP_DOWN);
+		fileCommandsItem.setMenu(subMenuCommands);
+		
+		MenuItem subItemAdd = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemAdd.setText ("Add student");
+		subItemAdd.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+		    	new AddWindow(display, controller, shell);
+		    }
+		});
+		
+		MenuItem subItemFindByAverageGrade = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemFindByAverageGrade.setText ("Find by Average Grade");
+		subItemFindByAverageGrade.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+				new FindByAverageGrade(display, controller);
+		    }
+		});
+
+		MenuItem subItemFindByGroup = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemFindByGroup.setText ("Find by Group");
+		subItemFindByGroup.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+		    	new FindByGroup(display, controller);
+		    }
+		});
+		
+		MenuItem subItemFindByDiscipline = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemFindByDiscipline.setText ("Find by Discipline");
+		subItemFindByDiscipline.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+				new FindByDiscipline(display, controller);
+		    }
+		});
+		
+		MenuItem subItemDeleteByAverageGrade = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemDeleteByAverageGrade.setText ("Delete by Average Grade");
+		subItemDeleteByAverageGrade.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+				new DeleteByAverageGrade(display, controller);
+		    }
+		});
+
+		MenuItem subItemDeleteByGroup = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemDeleteByGroup.setText ("Delete by Group");
+		subItemDeleteByGroup.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+		    	new DeleteByGroup(display, controller);
+		    }
+		});
+		
+		MenuItem subItemDeleteByDiscipline = new MenuItem (subMenuCommands, SWT.PUSH);
+		subItemDeleteByDiscipline.setText ("Delete by Discipline");
+		subItemDeleteByDiscipline.addListener (SWT.Selection, new Listener () {
+		    @Override
+		    public void handleEvent (Event e) {
+				new DeleteByDiscipline(display, controller);
+		    }
+		});
+		
 		MenuItem subItemOpen = new MenuItem (subMenu, SWT.PUSH);
 		subItemOpen.setText ("Open");
 		subItemOpen.addListener (SWT.Selection, new Listener () {
@@ -59,6 +127,7 @@ public class MainWindow {
 				} catch (SAXException | IOException | ParserConfigurationException e1) {
 					e1.printStackTrace();
 				}
+				new RecordsOnPage(shell, controller, "main");
 		    }
 		});
 		
@@ -67,6 +136,13 @@ public class MainWindow {
 		subItemSave.addListener (SWT.Selection, new Listener () {
 		    @Override
 		    public void handleEvent (Event e) {
+		    	if (controller.getStudents().size() == 0) {
+					MessageBox messageError = new MessageBox(shell, SWT.ICON_ERROR);
+					messageError.setText("ERROR!");
+					messageError.setMessage("Nothing to save");
+					messageError.open();
+					return;
+		    	}
 				FileDialog dialogSave = new FileDialog(shell, SWT.SAVE);
 				String fileNameSave = dialogSave.open();
 				File fileSave = new File(fileNameSave);
@@ -85,7 +161,7 @@ public class MainWindow {
 		addStudentButton.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent arg0) {
-				new AddWindow(display, controller);
+				new AddWindow(display, controller, shell);
 			}
 		});
 

@@ -1,6 +1,5 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,236 +15,264 @@ public class RecordsOnPage {
 	private Table table;
 	private Label countRecords;
 	private Label allRecords;
-	private Label currentPages;
+	private Label currentPage;
 	private Label allPages;
-	private int currentPage = 1;
+	private int numberOfCurrentPage = 1;
     private int count = 0;
+    private int numberOfColumns = 0;
+    private Text countPages;
+    private Label countPagesText;
+    private List<Student> listMainWindow;
+    private List<Student> listDialogWindow;
+    private List<Student> listOfRecords;
 	
-	public RecordsOnPage(Display display, Shell shell, Controller controller){
+	public RecordsOnPage(Composite shell, Controller controller, String check){
+		update(controller);
+		countRecords = new Label(shell, SWT.NONE);
+		countRecords.setBounds(10, 425, 100, 30);
+		countRecords.setText("Records on page: " + 0);
+		
+		allRecords = new Label(shell, SWT.NONE);
+		allRecords.setBounds(130, 425, 100, 30);
+		allRecords.setText("Records at all: " + 0);
+		
+		currentPage = new Label(shell, SWT.NONE);
+		currentPage.setBounds(250, 425, 100, 30);
+		currentPage.setText("Current page: " + 1);
+				
+		allPages = new Label(shell, SWT.NONE);
+		allPages.setBounds(370, 425, 80, 30);
+		allPages.setText("Pages at all: " + numberOfCurrentPage);
+		
+        countPagesText = new Label(shell, SWT.NONE);
+        countPagesText.setText("Input count of records:");
+        countPagesText.setBounds(470, 425, 120, 30);
+		
+        countPages = new Text(shell, SWT.BORDER);
+        countPages.setText("5");
+        countPages.setBounds(600, 425, 30, 20);
+		List<Student> listOfRecords;
+		if (check.equals("main")) {
+			recordsOnPageMainWindow(shell, controller, check);
+			listOfRecords = listMainWindow;
+		} else {
+			recordsOnPageDialogWindow(shell, controller, check);
+			listOfRecords = listDialogWindow;
+		}
+		
+        if (!countPages.getText().isEmpty()) {
+            table.removeAll();
+            count = Integer.parseInt(countPages.getText());
+            if (count <= listOfRecords.size()) {
+            	setRecords(listOfRecords, 0, count);
+            	countRecords.setText("Records on page: " + count);
+            	allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+            } else {
+            	setRecords(listOfRecords, 0, listOfRecords.size());
+            	countRecords.setText("Records on page: " + listOfRecords.size());
+            	allPages.setText("Pages at all: " + 1);
+            }
+            allRecords.setText("Records at all: " + listOfRecords.size());
+    		currentPage.setText("Current page: " + 1);
+            numberOfCurrentPage = 1;
+        }
+	}
+	
+	public void recordsOnPageMainWindow(Composite shell, Controller controller, String check) {
+		update(controller);
+		createTable(shell, check);
+		createButtons(shell, check, controller);
+	}
+	
+	public void recordsOnPageDialogWindow(Composite shell, Controller controller, String check) {
+		update(controller);
+		createTable(shell, check);
+		createButtons(shell, check, controller);
+	}
+	
+	public void update(Controller controller) {
+		listMainWindow = controller.getStudents();
+		listDialogWindow = controller.getStudentsForTasks();
+	}
+	
+	public void createTable(Composite shell, String check) {
+		if (check.equals("main")) {
+			listOfRecords = listMainWindow;
+		} else {
+			listOfRecords = listDialogWindow;
+		}
 		table = new Table(shell, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setBounds(10, 15, 1050, 400);
 		
-		countRecords = new Label(shell, SWT.NONE);
-		countRecords.setBounds(10, 420, 130, 30);
-		countRecords.setText("Records on page: " + 0);
-		
-		allRecords = new Label(shell, SWT.NONE);
-		allRecords.setBounds(180, 420, 100, 30);
-		allRecords.setText("Records at all: " + 0);
-		
-		currentPages = new Label(shell, SWT.NONE);
-		currentPages.setBounds(300, 420, 100, 30);
-		currentPages.setText("Current page: " + 1);
-				
-		allPages = new Label(shell, SWT.NONE);
-		allPages.setBounds(420, 420, 100, 30);
-		allPages.setText("Pages at all: " + 1);
-		
-        Button nextPage = new Button(shell, SWT.PUSH);
-        nextPage.setText("Next page");
-        nextPage.setBounds(250, 460, 100, 30);
-
-        Button prevPage = new Button(shell, SWT.PUSH);
-        prevPage.setText("Prev page");
-        prevPage.setBounds(130, 460, 100, 30);
-
-        Button lastPage = new Button(shell, SWT.PUSH);
-        lastPage.setText("Last page");
-        lastPage.setBounds(370, 460, 100, 30);
-
-        Button firstPage = new Button(shell, SWT.PUSH);
-        firstPage.setText("First page");
-        firstPage.setBounds(10, 460, 100, 30);
-
-        Text countPages = new Text(shell, SWT.BORDER);
-        countPages.setText("5");
-        countPages.setBounds(615, 465, 30, 20);
-        
-        Label countPagesText = new Label(shell, SWT.NONE);
-        countPagesText.setText("Input count of records:");
-        countPagesText.setBounds(490, 465, 120, 30);
-        
-        Button generate = new Button(shell, SWT.PUSH);
-        generate.setText("Generate");
-        generate.setBounds(200, 500, 100, 30);
-        generate.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if (!countPages.getText().isEmpty()) {
-                    table.removeAll();
-                    count = Integer.parseInt(countPages.getText());
-                    if (count <= controller.getStudents().size()) {
-                    	setRecords(controller.getStudents(), 0, count);
-                    	countRecords.setText("Records on page: " + count);
-                    	allPages.setText("Pages at all: " + (int)Math.ceil((double)controller.getStudents().size() / (double)count));
-                    } else {
-                    	setRecords(controller.getStudents(), 0, controller.getStudents().size());
-                    	countRecords.setText("Records on page: " + controller.getStudents().size());
-                    	allPages.setText("Pages at all: " + 1);
-                    }
-                    allRecords.setText("Records at all: " + controller.getStudents().size());
-            		currentPages.setText("Current page: " + 1);
-                    currentPage = 1;
-                }                
-            }
-        });
-        
-        nextPage.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if (controller.getStudents().size() - currentPage * count <= 0) {
-            		return;
-            	} else {
-            		if (!countPages.getText().isEmpty()) {
-            			table.removeAll();
-            			count = Integer.parseInt(countPages.getText());
-            			if (count <= controller.getStudents().size() - currentPage * count) {
-            				setRecords(controller.getStudents(), currentPage * count, currentPage * count + count);
-            				countRecords.setText("Records on page: " + count);
-            				allPages.setText("Pages at all: " + (int)Math.ceil((double)controller.getStudents().size() / (double)count));
-            			} else {
-            				setRecords(controller.getStudents(), currentPage * count, controller.getStudents().size());
-            				countRecords.setText("Records on page: " + (controller.getStudents().size() - currentPage * count));
-            				allPages.setText("Pages at all: " + (int)Math.ceil((double)controller.getStudents().size() / (double)count));
-            			}
-            			allRecords.setText("Records at all: " + controller.getStudents().size());
-            			currentPage++;
-            			currentPages.setText("Current page: " + currentPage);
-            		} 
-            	}
-            }
-        });
-              
-        prevPage.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if (currentPage == 1) {
-            		return;
-            	} else {
-            		if (!countPages.getText().isEmpty()) {
-            			table.removeAll();
-            			count = Integer.parseInt(countPages.getText());
-            			setRecords(controller.getStudents(), (currentPage - 2) * count, (currentPage - 1) * count);
-            			countRecords.setText("Records on page: " + count);
-            			allPages.setText("Pages at all: " + (int)Math.ceil((double)controller.getStudents().size() / (double)count));
-            			currentPage--;
-            			allRecords.setText("Records at all: " + controller.getStudents().size());
-            			currentPages.setText("Current page: " + currentPage);
-            		} 
-            	}
-            }
-        });
-        
-        firstPage.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if (currentPage == 1) {
-            		return;
-            	} else {
-            		if (!countPages.getText().isEmpty()) {
-            			table.removeAll();
-            			count = Integer.parseInt(countPages.getText());
-            			setRecords(controller.getStudents(), 0, count);
-            			countRecords.setText("Records on page: " + count);
-            			allPages.setText("Pages at all: " + (int)Math.ceil((double)controller.getStudents().size() / (double)count));
-            			currentPage = 1;
-            			allRecords.setText("Records at all: " + controller.getStudents().size());
-            			currentPages.setText("Current page: " + currentPage);
-            		} 
-            	}
-            }
-        });
-        
-        lastPage.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if (currentPage == (int)Math.ceil((double)controller.getStudents().size() / (double)count)) {
-            		return;
-            	} else {
-            		if (!countPages.getText().isEmpty()) {
-            			table.removeAll();
-            			count = Integer.parseInt(countPages.getText());
-            			currentPage = (int)Math.ceil((double)controller.getStudents().size() / (double)count);
-           				setRecords(controller.getStudents(), (currentPage - 1) * count, controller.getStudents().size());
-            			countRecords.setText("Records on page: " + (controller.getStudents().size() - (currentPage - 1) * count));
-            			allPages.setText("Pages at all: " + (int)Math.ceil((double)controller.getStudents().size() / (double)count));
-            			allRecords.setText("Records at all: " + controller.getStudents().size());
-            			currentPages.setText("Current page: " + currentPage);
-            		} 
-            	}
-            }
-        });
-
 		TableColumn FIOColumn = new TableColumn(table, SWT.DEFAULT);
 		FIOColumn.setText("FIO");
 		FIOColumn.setWidth(200);
 		
 		TableColumn groupColumn = new TableColumn(table, SWT.DEFAULT);
 		groupColumn.setText("Group");
-		groupColumn.setWidth(100);;
+		groupColumn.setWidth(100);
 
-		TableColumn firstExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		firstExamNameColumn.setText("Exam name");
-		firstExamNameColumn.pack();
-		
-		TableColumn firstGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		firstGradeColumn.setText("Grade");
-		firstGradeColumn.pack();
-		
-		TableColumn secondExamNameColumnn = new TableColumn(table, SWT.DEFAULT);
-		secondExamNameColumnn.setText("Exam name");
-		secondExamNameColumnn.pack();
-		
-		TableColumn secondGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		secondGradeColumn.setText("Grade");
-		secondGradeColumn.pack();
-		
-		TableColumn thirdExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		thirdExamNameColumn.setText("Exam name");
-		thirdExamNameColumn.pack();
-		
-		TableColumn thirdGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		thirdGradeColumn.setText("Grade");
-		thirdGradeColumn.pack();
-		
-		TableColumn fourthExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		fourthExamNameColumn.setText("Exam name");
-		fourthExamNameColumn.pack();
-		
-		TableColumn fourthGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		fourthGradeColumn.setText("Grade");
-		fourthGradeColumn.pack();
-		
-		TableColumn fifthExamNameColumnn = new TableColumn(table, SWT.DEFAULT);
-		fifthExamNameColumnn.setText("Exam name");
-		fifthExamNameColumnn.pack();
-		
-		TableColumn fifthGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		fifthGradeColumn.setText("Grade");
-		fifthGradeColumn.pack();
-		
-		TableColumn sixthExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		sixthExamNameColumn.setText("Exam name");
-		sixthExamNameColumn.pack();
-		
-		TableColumn sixthGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		sixthGradeColumn.setText("Grade");
-		sixthGradeColumn.pack();
-		
-		TableColumn seventhExamNameColumn = new TableColumn(table, SWT.DEFAULT);
-		seventhExamNameColumn.setText("Exam name");
-		seventhExamNameColumn.pack();
-		
-		TableColumn seventhGradeColumn = new TableColumn(table, SWT.DEFAULT);
-		seventhGradeColumn.setText("Grade");
-		seventhGradeColumn.pack();
+        for (Student student : listOfRecords) {
+        	Map<String, Integer> mapOfExams = student.getExams();
+	    	if (numberOfColumns < mapOfExams.size()) {
+	    			numberOfColumns = mapOfExams.size();
+	    	}
+        }
+
+		for (int i = 0; i < numberOfColumns * 2; i++) {
+			TableColumn tableColumn = new TableColumn(table, SWT.DEFAULT);
+			if (i % 2 == 0) {
+				tableColumn.setText("Exam name");
+				tableColumn.pack();
+			} else {
+				tableColumn.setText("Grade");
+				tableColumn.pack();
+			}
+		}
 	}
 	
-	public void setRecords(ArrayList<Student> studentToSet, int start, int end) {
-		List<Student> subStudent = studentToSet;
-		List<Student> subStudentToSet = subStudent.subList(start, end);
+	public void createButtons(Composite shell, String check, Controller controller) {
+		if (check.equals("main")) {
+			listOfRecords = listMainWindow;
+		} else {
+			listOfRecords = listDialogWindow;
+		}
+
+        Button nextPage = new Button(shell, SWT.PUSH);
+        nextPage.setText("Next page");
+        nextPage.setBounds(250, 460, 100, 30);
+        nextPage.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	if (listOfRecords.size() - numberOfCurrentPage * count <= 0) {
+            		return;
+            	} else {
+            		if (!countPages.getText().isEmpty()) {
+            			table.removeAll();
+            			count = Integer.parseInt(countPages.getText());
+            			if (count <= listOfRecords.size() - numberOfCurrentPage * count) {
+            				setRecords(listOfRecords, numberOfCurrentPage * count, numberOfCurrentPage * count + count);
+            				countRecords.setText("Records on page: " + count);
+            				allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+            			} else {
+            				setRecords(listOfRecords, numberOfCurrentPage * count, listOfRecords.size());
+            				countRecords.setText("Records on page: " + (listOfRecords.size() - numberOfCurrentPage * count));
+            				allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+            			}
+            			allRecords.setText("Records at all: " + listOfRecords.size());
+            			numberOfCurrentPage++;
+            			currentPage.setText("Current page: " + numberOfCurrentPage);
+            		} 
+            	}
+            }
+        });
+
+        Button prevPage = new Button(shell, SWT.PUSH);
+        prevPage.setText("Prev page");
+        prevPage.setBounds(130, 460, 100, 30);
+        prevPage.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	if (numberOfCurrentPage == 1) {
+            		return;
+            	} else {
+            		if (!countPages.getText().isEmpty()) {
+            			table.removeAll();
+            			count = Integer.parseInt(countPages.getText());
+            			setRecords(listOfRecords, (numberOfCurrentPage - 2) * count, (numberOfCurrentPage - 1) * count);
+            			countRecords.setText("Records on page: " + count);
+            			allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+            			numberOfCurrentPage--;
+            			allRecords.setText("Records at all: " + listOfRecords.size());
+            			currentPage.setText("Current page: " + numberOfCurrentPage);
+            		} 
+            	}
+            }
+        });
+
+        Button lastPage = new Button(shell, SWT.PUSH);
+        lastPage.setText("Last page");
+        lastPage.setBounds(370, 460, 100, 30);
+        lastPage.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	if (numberOfCurrentPage == (int)Math.ceil((double)listOfRecords.size() / (double)count)) {
+            		return;
+            	} else {
+            		if (!countPages.getText().isEmpty()) {
+            			table.removeAll();
+            			count = Integer.parseInt(countPages.getText());
+            			numberOfCurrentPage = (int)Math.ceil((double)listOfRecords.size() / (double)count);
+           				setRecords(listOfRecords, (numberOfCurrentPage - 1) * count, listOfRecords.size());
+            			countRecords.setText("Records on page: " + (listOfRecords.size() - (numberOfCurrentPage - 1) * count));
+            			allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+            			allRecords.setText("Records at all: " + listOfRecords.size());
+            			currentPage.setText("Current page: " + numberOfCurrentPage);
+            		} 
+            	}
+            }
+        });
+
+        Button firstPage = new Button(shell, SWT.PUSH);
+        firstPage.setText("First page");
+        firstPage.setBounds(10, 460, 100, 30);
+        firstPage.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	if (numberOfCurrentPage == 1) {
+            		return;
+            	} else {
+            		if (!countPages.getText().isEmpty()) {
+            			table.removeAll();
+            			count = Integer.parseInt(countPages.getText());
+            			setRecords(listOfRecords, 0, count);
+            			countRecords.setText("Records on page: " + count);
+            			allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+            			numberOfCurrentPage = 1;
+            			allRecords.setText("Records at all: " + listOfRecords.size());
+            			currentPage.setText("Current page: " + numberOfCurrentPage);
+            		} 
+            	}
+            }
+        });
+        
+        Button update = new Button(shell, SWT.PUSH);
+        update.setText("Update");
+        update.setBounds(650, 420, 80, 30);
+        update.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	update(controller);
+        		if (check.equals("main")) {
+        			listOfRecords = listMainWindow;
+        		} else {
+        			listOfRecords = listDialogWindow;
+        		}
+                if (!countPages.getText().isEmpty()) {
+                    table.removeAll();
+                    count = Integer.parseInt(countPages.getText());
+                    if (count <= listOfRecords.size()) {
+                    	setRecords(listOfRecords, 0, count);
+                    	countRecords.setText("Records on page: " + count);
+                    	allPages.setText("Pages at all: " + (int)Math.ceil((double)listOfRecords.size() / (double)count));
+                    } else {
+                    	setRecords(listOfRecords, 0, listOfRecords.size());
+                    	countRecords.setText("Records on page: " + listOfRecords.size());
+                    	allPages.setText("Pages at all: " + 1);
+                    }
+                    allRecords.setText("Records at all: " + listOfRecords.size());
+            		currentPage.setText("Current page: " + 1);
+                    numberOfCurrentPage = 1;
+                } 
+                }                
+        });
+		
+	}
+	
+	public void setRecords(List<Student> studentToSet, int start, int end) {
+		List<Student> subStudentToSet = studentToSet.subList(start, end);
         for (Student student : subStudentToSet) {
             TableItem tableItem = new TableItem(table, SWT.DEFAULT);
             tableItem.setText(0, student.getSurname() + " " + student.getName() + " " + student.getMiddleName());

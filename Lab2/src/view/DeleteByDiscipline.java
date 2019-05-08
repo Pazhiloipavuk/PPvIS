@@ -1,19 +1,11 @@
 package view;
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 import controller.Controller;
-import model.Student;
 
 public class DeleteByDiscipline {
 	public DeleteByDiscipline(Display display, Controller controller) {
@@ -63,14 +55,14 @@ public class DeleteByDiscipline {
 				String examToSearch = textExam.getText();
 				int lowerGrade = Integer.parseInt(textLowerGrade.getText());
 				int upperGrade = Integer.parseInt(textUpperGrade.getText());
-				ArrayList<Student> studentToFind = controller.findByGradeByDiscipline(examToSearch, surnameToSearch, lowerGrade, upperGrade);
-				if (studentToFind.size() == 0) {
+				controller.findByGradeByDiscipline(examToSearch, surnameToSearch, lowerGrade, upperGrade);
+				if (controller.getStudentsForTasks().size() == 0) {
 					MessageBox messageError = new MessageBox(shell, SWT.ICON_ERROR);
 					messageError.setText("ERROR!");
 					messageError.setMessage("No match found");
 					messageError.open();
 				} else {
-					int i = controller.removeStudent(studentToFind);
+					int i = controller.removeStudent(controller.getStudentsForTasks());
 					MessageBox messageError = new MessageBox(shell, SWT.OK);
 					messageError.setText("COMPLETE!");
 					messageError.setMessage(i + " records were removed");
