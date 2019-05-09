@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<school>
+    <student>
+        <name>Test</name>
+        <surname>Testov</surname>
+        <middlename>Testovich</middlename>
+        <exam grade="9">test1</exam>
+        <exam grade="9">test2</exam>
+        <group>testgroup</group>
+    </student>
+</school>
