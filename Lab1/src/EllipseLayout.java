@@ -9,13 +9,11 @@ public class EllipseLayout extends Layout {
 
 	@Override
 	protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void layout(Composite composite, boolean flushCache) {
-		// TODO Auto-generated method stub
 		boolean upperHalfPlane = true;
 		int intX = 0;
 		int intY = 0;
@@ -28,6 +26,7 @@ public class EllipseLayout extends Layout {
 		int a = screen.width/2;
 		int b = screen.height/2;
 		int step = 0;
+		
 		if (screen.width < 500) {
 			step = screen.width/arrayShell.length - 24;
 		} else {
@@ -66,10 +65,10 @@ public class EllipseLayout extends Layout {
 			} else if (intX + 2*step > a) {
 		 		arrayShell[i].setLocation(intX, intY - widget.height/2);
 		 		doubleX = doubleX + step;
-			} else if (upperHalfPlane == false & intX - 2*step < a) {
+			} else if (!upperHalfPlane & intX - 2*step < a) {
 		 		arrayShell[i].setLocation(intX, intY - widget.height/2);
 		 		doubleX = doubleX - step;
-			} else if (upperHalfPlane == false) {
+			} else if (!upperHalfPlane) {
 		 		arrayShell[i].setLocation(intX, intY - widget.height/2);
 		 		doubleX = doubleX - 2*step;
 			} else {

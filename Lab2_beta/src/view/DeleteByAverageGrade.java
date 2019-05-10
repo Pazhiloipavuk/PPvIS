@@ -1,14 +1,17 @@
 package view;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.*;
 
 import controller.*;
+import model.Student;
 
 public class DeleteByAverageGrade {
-	public DeleteByAverageGrade(Display display, Controller controller) {
+	public DeleteByAverageGrade(Display display, Controller controller, RecordsOnPage recordsOnPage, Composite composite) {
 		Shell shell = new Shell(display, SWT.MAX | SWT.TITLE | SWT.CLOSE | SWT.SHELL_TRIM);
 		shell.setBounds(500, 250, 300, 250);
 		shell.open();
@@ -47,18 +50,20 @@ public class DeleteByAverageGrade {
 				String surnameToSearch = textSurname.getText();
 				int lowerGrade = Integer.parseInt(textLowerGrade.getText());
 				int upperGrade = Integer.parseInt(textUpperGrade.getText());
-				controller.findByAverageGrade(lowerGrade, upperGrade, surnameToSearch);
-				if (controller.getStudentsForTasks().size() == 0) {
+				List<Student> search = controller.findByAverageGrade(lowerGrade, upperGrade, surnameToSearch);
+				if (search.size() == 0) {
 					MessageBox messageError = new MessageBox(shell, SWT.ICON_ERROR);
 					messageError.setText("ERROR!");
 					messageError.setMessage("No match found");
 					messageError.open();
 				} else {
-					int i = controller.removeStudent(controller.getStudentsForTasks());
+					int i = controller.removeStudent(search);
 					MessageBox messageError = new MessageBox(shell, SWT.OK);
 					messageError.setText("COMPLETE!");
 					messageError.setMessage(i + " records were removed");
 					messageError.open();
+					recordsOnPage.refresh(composite);
+					recordsOnPage.createTable(composite, controller.getStudents());
 				}
 				textSurname.setText("");
 				textLowerGrade.setText("");

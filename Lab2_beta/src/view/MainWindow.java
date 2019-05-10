@@ -27,6 +27,8 @@ public class MainWindow {
 	private Controller controller;
 	Display display = new Display();
 	Shell shell = new Shell(display, SWT.MAX | SWT.TITLE | SWT.CLOSE | SWT.SHELL_TRIM);
+	boolean firstIteration = true;
+	RecordsOnPage recordsOnPage;
 	
 	public MainWindow(Controller controller) {
 		this.controller = controller;
@@ -56,7 +58,7 @@ public class MainWindow {
 		subItemAdd.addListener (SWT.Selection, new Listener () {
 		    @Override
 		    public void handleEvent (Event e) {
-		    	new AddWindow(display, controller, shell);
+		    	new AddWindow(display, controller, recordsOnPage, shell);
 		    }
 		});
 		
@@ -92,7 +94,7 @@ public class MainWindow {
 		subItemDeleteByAverageGrade.addListener (SWT.Selection, new Listener () {
 		    @Override
 		    public void handleEvent (Event e) {
-				new DeleteByAverageGrade(display, controller);
+				new DeleteByAverageGrade(display, controller, recordsOnPage, shell);
 		    }
 		});
 
@@ -101,7 +103,7 @@ public class MainWindow {
 		subItemDeleteByGroup.addListener (SWT.Selection, new Listener () {
 		    @Override
 		    public void handleEvent (Event e) {
-		    	new DeleteByGroup(display, controller);
+		    	new DeleteByGroup(display, controller, recordsOnPage, shell);
 		    }
 		});
 		
@@ -110,7 +112,7 @@ public class MainWindow {
 		subItemDeleteByDiscipline.addListener (SWT.Selection, new Listener () {
 		    @Override
 		    public void handleEvent (Event e) {
-				new DeleteByDiscipline(display, controller);
+				new DeleteByDiscipline(display, controller, recordsOnPage, shell);
 		    }
 		});
 		
@@ -127,7 +129,13 @@ public class MainWindow {
 				} catch (SAXException | IOException | ParserConfigurationException e1) {
 					e1.printStackTrace();
 				}
-				new RecordsOnPage(shell, controller, "main");
+				if (recordsOnPage == null) {
+					recordsOnPage = new RecordsOnPage();
+					recordsOnPage.createTable(shell, controller.getStudents());
+				} else {
+					recordsOnPage.refresh(shell);
+					recordsOnPage.createTable(shell, controller.getStudents());
+				}
 		    }
 		});
 		
@@ -161,7 +169,7 @@ public class MainWindow {
 		addStudentButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				new AddWindow(display, controller, shell);
+				new AddWindow(display, controller, recordsOnPage, shell);
 			}
 		});
 
@@ -205,7 +213,7 @@ public class MainWindow {
 		deleteByGradeAverage.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				new DeleteByAverageGrade(display, controller);
+				new DeleteByAverageGrade(display, controller, recordsOnPage, shell);
 			}
 		});
 
@@ -216,7 +224,7 @@ public class MainWindow {
 		deleteByNumberOfGroup.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				new DeleteByGroup(display, controller);
+				new DeleteByGroup(display, controller, recordsOnPage, shell);
 			}
 		});
 		
@@ -227,7 +235,7 @@ public class MainWindow {
 		deleteByGradeByDiscipline.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				new DeleteByDiscipline(display, controller);
+				new DeleteByDiscipline(display, controller, recordsOnPage, shell);
 			}
 		});
 				

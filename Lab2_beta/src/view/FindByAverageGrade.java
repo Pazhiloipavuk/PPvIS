@@ -1,13 +1,18 @@
 package view;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.*;
 
 import controller.Controller;
+import model.*;
 
 public class FindByAverageGrade {
+	RecordsOnPage recordsOnPage;
+	
 	public FindByAverageGrade(Display display, Controller controller) {
 		Shell shell = new Shell(display, SWT.MAX | SWT.TITLE | SWT.CLOSE | SWT.SHELL_TRIM);
 		shell.setBounds(50, 100, 1090, 580);
@@ -43,14 +48,20 @@ public class FindByAverageGrade {
 				String surnameToSearch = textSurname.getText();
 				int lowerGrade = Integer.parseInt(textLowerGrade.getText());
 				int upperGrade = Integer.parseInt(textUpperGrade.getText());
-				controller.findByAverageGrade(lowerGrade, upperGrade, surnameToSearch);
-				if (controller.getStudentsForTasks().size() == 0) {
+				List<Student> search = controller.findByAverageGrade(lowerGrade, upperGrade, surnameToSearch);
+				if (search.isEmpty()) {
 					MessageBox messageError = new MessageBox(shell, SWT.ICON_ERROR);
 					messageError.setText("ERROR!");
 					messageError.setMessage("No match found");
 					messageError.open();
 				} else {
-					new RecordsOnPage(shell, controller, "dialog");
+					if (recordsOnPage == null) {
+						recordsOnPage = new RecordsOnPage();
+						recordsOnPage.createTable(shell, search);
+					} else {
+						recordsOnPage.refresh(shell);
+						recordsOnPage.createTable(shell, search);
+					}
 				}
 				textSurname.setText("");
 				textLowerGrade.setText("");

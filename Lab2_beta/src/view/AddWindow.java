@@ -13,7 +13,7 @@ public class AddWindow {
 	String stringOfGrades;
 	boolean firstIteration = true;
 	
-	public AddWindow(Display display, Controller controller, Composite composite) {
+	public AddWindow(Display display, Controller controller, RecordsOnPage recordsOnPage, Composite composite) {
 		Shell shell = new Shell(display, SWT.MAX | SWT.TITLE | SWT.CLOSE | SWT.SHELL_TRIM);
 		shell.setBounds(500, 100, 400, 350);
 		shell.open();
@@ -79,7 +79,7 @@ public class AddWindow {
 			public void widgetSelected(SelectionEvent arg0) {
 				String addExam = textExams.getText();
 				String addGrade = textGrades.getText();
-				if (firstIteration == true) {
+				if (firstIteration) {
 					stringOfExams = addExam;
 					stringOfGrades = addGrade;
 					firstIteration = false;
@@ -104,7 +104,10 @@ public class AddWindow {
 				String middleNameToAdd = textMiddlename.getText();
 				String groupToAdd = textGroup.getText();
 				controller.addStudent(nameToAdd, surnameToAdd, middleNameToAdd, groupToAdd, stringOfExams, stringOfGrades);
-				//new RecordsOnPage(composite, controller, "main");
+				
+				recordsOnPage.refresh(composite);
+				recordsOnPage.createTable(composite, controller.getStudents());
+				
 				textName.setText("");
 				textSurname.setText("");
 				textMiddlename.setText("");

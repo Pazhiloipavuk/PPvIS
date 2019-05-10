@@ -3,7 +3,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 
-
 public class Window {
 
 	public void showErrorMessage(Shell shell) {
@@ -46,7 +45,7 @@ public class Window {
 		firstGroup.setLayout(new EllipseLayout());
 		
 		Text textFGr = new Text(firstGroup, SWT.BORDER);
-		textFGr.setBounds(0, 20, 60, 25);
+		textFGr.setBounds(0, 20, 60, 30);
 
 		Combo combo = new Combo(firstGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
 		combo.setBounds(0, 60, 60, 25);
