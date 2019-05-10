@@ -58,6 +58,10 @@ public class MainWindow {
 		subItemAdd.addListener (SWT.Selection, new Listener () {
 		    @Override
 		    public void handleEvent (Event e) {
+				if (recordsOnPage == null) {
+					recordsOnPage = new RecordsOnPage();
+					recordsOnPage.createTable(shell, controller.getStudents());
+				}
 		    	new AddWindow(display, controller, recordsOnPage, shell);
 		    }
 		});
@@ -169,6 +173,10 @@ public class MainWindow {
 		addStudentButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				if (recordsOnPage == null) {
+					recordsOnPage = new RecordsOnPage();
+					recordsOnPage.createTable(shell, controller.getStudents());
+				}
 				new AddWindow(display, controller, recordsOnPage, shell);
 			}
 		});
